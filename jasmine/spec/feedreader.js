@@ -42,10 +42,9 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('have URL values defined and URL values are not empty', function() {
+        it('have name values defined and name values are not empty', function() {
             for (var i = 0; i < allFeeds.length; i++) {
-                // .length returns 0 for an empty string
-                expect(allFeeds[i].url.length).not.toBe(0);
+                expect(allFeeds[i].name.length).not.toBe(0);
             }
         });
     });
