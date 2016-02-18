@@ -21,7 +21,7 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
-        it('are defined', function() {
+        it('are defined.', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
@@ -31,7 +31,7 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
-        it('have URL values defined and URL values are not empty', function() {
+        it('have URL values defined and URL values are not empty.', function() {
             for (var i = 0; i < allFeeds.length; i++) {
                 // .length returns 0 for an empty string
                 expect(allFeeds[i].url.length).not.toBe(0);
@@ -42,7 +42,7 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('have name values defined and name values are not empty', function() {
+        it('have name values defined and name values are not empty.', function() {
             for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].name.length).not.toBe(0);
             }
@@ -58,7 +58,7 @@ $(function() {
          */
         // the menu-hidden class controls menu visibility.
         // Test if menu-hidden is applied to the body at app start.
-        it('is hidden by default', function() {
+        it('is hidden by default.', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
         /* TODO: Write a test that ensures the menu changes
@@ -66,7 +66,7 @@ $(function() {
          * should have two expectations: does the menu display when
          * clicked and does it hide when clicked again.
          */
-        it('changes visibility when the menu icon is clicked', function() {
+        it('changes visibility when the menu icon is clicked.', function() {
 
             // simulate clicking the menu icon
             $('.icon-list').trigger('click');
@@ -92,11 +92,14 @@ $(function() {
          */
 
         beforeEach(function(done) {
+            // remove all child nodes from .feed
+            $('.feed').empty();
+
             // load the first feed
             loadFeed(0, done);
         });
 
-        it('exist after a feed is loaded', function() {
+        it('exist after a feed is loaded.', function() {
 
             // If .feed has at least one .entry child element .length returns 1.
             // Otherwise 0 is returned.
@@ -105,9 +108,76 @@ $(function() {
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
+        /* TODO: Write a test that ensures when a new feed is loaded
+         * by the loadFeed function that the content actually changes.
+         * Remember, loadFeed() is asynchronous.
+         */
 
-    /* TODO: Write a test that ensures when a new feed is loaded
-     * by the loadFeed function that the content actually changes.
-     * Remember, loadFeed() is asynchronous.
-     */
+        var firstLink = null;
+        var secondLink = null;
+
+        beforeEach(function(done) {
+            // remove all child nodes from .feed
+            $('.feed').empty();
+
+            // load the first feed,
+            // then execute callback function
+            loadFeed(0, function() {
+                firstLink = $('.feed .entry-link').first().attr("href");
+
+                // load the second feed,
+                // then execute callback function
+                loadFeed(1, function() {
+                    secondLink = $('.feed .entry-link').first().attr("href");
+                    done();
+                });
+            });
+        });
+
+        it('actually changes the content.', function() {
+
+            expect(firstLink).not.toEqual(secondLink);
+        });
+    });
+
+    describe('The menu', function() {
+
+        // getTranslateX returns the Translate-X (tx) value in a transformString.
+        // transformString format = (a, b, c, d, tx, ty)
+        // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+        getTranslateX = function(transformString) {
+            var lastComma = transformString.lastIndexOf(",");
+            var transformSubString = transformString.substring(0, lastComma);
+            var secondToLastComma = transformSubString.lastIndexOf(",");
+            var tx = transformString.substring(secondToLastComma + 1, lastComma).trim();
+            // write tx to console
+            console.log(tx);
+            return tx;
+        };
+
+        it('changes visibility when the menu icon is clicked (and I can tell without checking the CSS classes applied to body).', function() {
+            var tx_first = null;
+            var tx_second = null;
+
+            // get transform before clicking the icon-list
+            tx_first = getTranslateX($('.slide-menu').css('transform'));
+
+            // simulate clicking the icon-list
+            $('.icon-list').trigger('click');
+
+            setTimeout(function() {
+                // wait 250ms to get transform value.
+                // Waiting gives this CSS transition time to complete --> transition: transform 0.2s;
+                tx_second = getTranslateX($('.slide-menu').css('transform'));
+
+            }, 250);
+
+            // Body font is 16px.
+            // CSS transform is by 12em in the X direction --> transform: translate3d(-12em, 0, 0);
+            // 12em at 16px = 192 px (Source: http://www.w3schools.com/tags/ref_pxtoemconversion.asp)
+            // The expected difference between tx_first and tx_second is 192px
+            expect(Math.abs(tx_first - tx_second)).toEqual(192);
+        });
+    });
 }());
