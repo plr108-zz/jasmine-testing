@@ -141,21 +141,31 @@ $(function() {
         });
     });
 
-    describe('The menu', function() {
 
-        // getTranslateX returns the Translate-X (tx) value in a transformString.
-        // transformString format = (a, b, c, d, tx, ty)
-        // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
-        getTranslateX = function(transformString) {
-            var lastComma = transformString.lastIndexOf(",");
-            var transformSubString = transformString.substring(0, lastComma);
-            var secondToLastComma = transformSubString.lastIndexOf(",");
-            var tx = transformString.substring(secondToLastComma + 1, lastComma).trim();
-            // write tx to console
-            console.log(tx);
-            return tx;
-        };
 
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // And now for something Completely Udacious...
+    // The following tests are intended to meet the 'Exceeds Expectations'
+    // requirements for Test Coverage and Test Results
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Bonus Test #1: Testing that visibility of the menu changes when the menu icon is
+    // clicked WITHOUT checking CSS classes.  This test checks if the CSS transform function
+    // is actually moving the menu laterally as intended.
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // getTranslateX returns the Translate-X (tx) value in a transformString.
+    // transformString format = (a, b, c, d, tx, ty)
+    // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
+    getTranslateX = function(transformString) {
+        var lastComma = transformString.lastIndexOf(",");
+        var transformSubString = transformString.substring(0, lastComma);
+        var secondToLastComma = transformSubString.lastIndexOf(",");
+        var tx = transformString.substring(secondToLastComma + 1, lastComma).trim();
+        // write tx to console
+        console.log(tx);
+        return tx;
+    };
+    describe('The menu (again)', function() {
         it('changes visibility when the menu icon is clicked (and I can tell without checking the CSS classes applied to body).', function() {
             var tx_first = null;
             var tx_second = null;
@@ -170,11 +180,10 @@ $(function() {
                 // wait 250ms to get transform value.
                 // Waiting gives this CSS transition time to complete --> transition: transform 0.2s;
                 tx_second = getTranslateX($('.slide-menu').css('transform'));
-
             }, 250);
 
             // Body font is 16px.
-            // CSS transform is by 12em in the X direction --> transform: translate3d(-12em, 0, 0);
+            // CSS transform is by 12em in the X direction --> transform: translate3d(-12em, 0, 0)
             // 12em at 16px = 192 px (Source: http://www.w3schools.com/tags/ref_pxtoemconversion.asp)
             // The expected difference between tx_first and tx_second is 192px
             expect(Math.abs(tx_first - tx_second)).toEqual(192);
