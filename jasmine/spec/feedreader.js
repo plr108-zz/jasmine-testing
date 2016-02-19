@@ -114,14 +114,13 @@ $(function() {
     // is actually moving the menu laterally as intended.
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // getTranslateX returns the Translate-X (tx) value in a transformString.
-    // transformString format = (a, b, c, d, tx, ty)
+    // getTranslateX returns the Translate-X (tx) value in a transformMatrix.
+    // transformMatrix format = (a, b, c, d, tx, ty)
     // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
-    getTranslateX = function(transformString) {
-        var lastComma = transformString.lastIndexOf(",");
-        var transformSubString = transformString.substring(0, lastComma);
-        var secondToLastComma = transformSubString.lastIndexOf(",");
-        var tx = transformString.substring(secondToLastComma + 1, lastComma).trim();
+    getTranslateX = function(transformMatrix) {
+        var lastComma = transformMatrix.lastIndexOf(",");
+        var secondToLastComma = transformMatrix.substring(0, lastComma).lastIndexOf(",");
+        var tx = transformMatrix.substring(secondToLastComma + 1, lastComma).trim();
         return tx;
     };
     describe('The menu (again)', function() {
