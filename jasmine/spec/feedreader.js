@@ -117,7 +117,7 @@ $(function() {
     // getTranslateX returns the Translate-X (tx) value in a transformMatrix.
     // transformMatrix format = (a, b, c, d, tx, ty)
     // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
-    getTranslateX = function(transformMatrix) {
+    var getTranslateX = function(transformMatrix) {
         var lastComma = transformMatrix.lastIndexOf(",");
         var secondToLastComma = transformMatrix.substring(0, lastComma).lastIndexOf(",");
         var tx = transformMatrix.substring(secondToLastComma + 1, lastComma).trim();
@@ -163,33 +163,39 @@ $(function() {
         });
     });
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////
-    // Bonus Test #2: Testing a "time posted" future.  Most feeds and websites list information
-    // about when a post is posted.  This test checks for the presence of a time posted in each
-    // .entry.  The timestamp will be present in the .entry element after the article title, and
-    // .entry will then have this format:
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
+    // Bonus Test #2: Testing a "time posted" future.  Most feeds list information about when an
+    // entry is posted.  This test checks for the presence of a time posted message in each
+    // .entry.  The time posted message will be present in the .entry element after the article
+    // title, and .entry will have this format:
     //
     //        <article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>
     //
     // The format of Time Posted will vary depending on how old the post is:
+    // If post is less than a minute old: <h5>Posted XX seconds ago</h5>
     // If post is less than an hour old: <h5>Posted XX minutes ago</h5>
-    // If post is older than an hour but less than a day old: <h5>Posted XX hours ago</h5>
+    // If post is older than an hour but less than 2 hours old: <h5>Posted an hour ago</h5>
+    // If post is older than 2 hours but less than a day old: <h5>Posted XX hours ago</h5>
     // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
-    // If post is at least two days old: <h5>Posted Month d, yyyy</h5> (e.g., "Posted January 1, 2016")
+    // If post is at least two days old: <h5>Posted xx days ago</h5>
     //
     // Note: This test is expected to fail right now as this functionality is not yet implemented
-    /////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
     describe('The Entries', function() {
 
+        var ValidateTimePostedMessage = function(message) {
+
+            console.log(message);
+
+            return true;
+        };
+
         beforeEach(function(done) {
-            // remove all child nodes from .feed
+            // Remove all child nodes from .feed
             $('.feed').empty();
 
-            // load a feed,
-            // then execute callback function
-            loadFeed(1, function() {
-                done();
-            });
+            // Load a feed
+            loadFeed(0, done);
         });
 
         it('have a Time Posted message.', function() {
@@ -201,16 +207,24 @@ $(function() {
                 // for each entry in the feed
                 for (var i = 0; i < $('.feed .entry').length; i++) {
                     entry = $('.feed .entry').eq(i).text().trim();
-                    // DEBUG: This line spoofs a Time Posted
-                    entry += "Posted: July 4, 1776"
-                    console.log(entry);
+                    //////////////////////////////////////
+                    // DEBUG: This spoofs a Time Posted
+                    // If post is less than a minute old: <h5>Posted XX seconds ago</h5>
+                    // If post is less than an hour old: <h5>Posted XX minutes ago</h5>
+                    // If post is older than an hour but less than 2 hours old: <h5>Posted an hour ago</h5>
+                    // If post is older than 2 hours but less than a day old: <h5>Posted XX hours ago</h5>
+                    // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
+                    // If post is at least two days old: <h5>Posted xx days ago</h5>
+                    entry += "Posted 27 seconds ago"
+                        //////////////////////////////////////
 
-                    // TODO: look for "Posted:" starting at end of string
+                    // look for "Posted" starting at end of string
+                    var TimePostedMessage = entry.substring(entry.lastIndexOf("Posted"), entry.length);
+
                     // check the format of posted note
+                    expect(ValidateTimePostedMessage(TimePostedMessage)).toEqual(true);
                 }
             }
-
-            expect(true).toEqual(true);
         });
     });
 
