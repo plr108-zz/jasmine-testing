@@ -13,34 +13,37 @@ $(function() {
     describe('RSS Feeds', function() {
 
         it('are defined.', function() {
+            // expect returns false if allFeed is not defined
             expect(allFeeds).toBeDefined();
+            // expect returns false if allFeeds is empty
             expect(allFeeds.length).not.toBe(0);
         });
 
         it('have URL values defined and URL values are not empty.', function() {
+            // loop through allFeeds
             for (var i = 0; i < allFeeds.length; i++) {
-                // .length returns 0 for an empty string
+                // expect returns false if url is empty
                 expect(allFeeds[i].url.length).not.toBe(0);
             }
         });
 
         it('have name values defined and name values are not empty.', function() {
+            // loop through allFeeds
             for (var i = 0; i < allFeeds.length; i++) {
+                // expect returns false if name is empty
                 expect(allFeeds[i].name.length).not.toBe(0);
             }
         });
     });
 
     describe('The menu', function() {
-
-        // the menu-hidden class controls menu visibility.
-        // Test if menu-hidden is applied to the body at app start.
+        // the menu-hidden css class controls menu visibility.
+        // Test if .menu-hidden is applied to body at app start.
         it('is hidden by default.', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
         it('changes visibility when the menu icon is clicked.', function() {
-
             // simulate clicking the menu icon
             $('.icon-list').trigger('click');
 
@@ -65,9 +68,7 @@ $(function() {
         });
 
         it('exist after a feed is loaded.', function() {
-
-            // If .feed has at least one .entry child element .length returns 1.
-            // Otherwise 0 is returned.
+            // expect .feed has at least one .entry child element
             expect($('.feed').has('.entry').length).not.toBe(0);
         });
     });
@@ -84,11 +85,13 @@ $(function() {
             // load the first feed,
             // then execute callback function
             loadFeed(0, function() {
+                // save the href attribute of the first entry
                 firstLink = $('.feed .entry-link').first().attr("href");
 
                 // load the second feed,
                 // then execute callback function
                 loadFeed(1, function() {
+                    // save the href attribute of the first entry
                     secondLink = $('.feed .entry-link').first().attr("href");
                     done();
                 });
@@ -96,7 +99,7 @@ $(function() {
         });
 
         it('actually changes the content.', function() {
-
+            // expect the hrefs to be different since we changed feeds
             expect(firstLink).not.toEqual(secondLink);
         });
     });
