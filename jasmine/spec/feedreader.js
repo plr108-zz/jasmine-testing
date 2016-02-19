@@ -1,36 +1,22 @@
-/* feedreader.js
- *
- * This is the spec file that Jasmine will read and contains
- * all of the tests that will be run against your application.
- */
-
-/* We're placing all of our tests within the $() function,
- * since some of these tests may require DOM elements. We want
- * to ensure they don't run until the DOM is ready.
- */
+///////////////////////////////////////////////////////////////////////////////
+// Udacity Front End Developer Nanodegree Project 6: Feed Reader Testing
+// By: Patrick Roche
+//     patrick.l.roche@gmail.com
+//     https://github.com/plr108
+//
+// Note: I removed the pre-existing comments in this file for clarity.
+//       No other project files were modified in creating this project.
+//       See the README for more information on this project.
+///////////////////////////////////////////////////////////////////////////////
 $(function() {
-    /* This is our first test suite - a test suite just contains
-     * a related set of tests. This suite is all about the RSS
-     * feeds definitions, the allFeeds variable in our application.
-     */
+
     describe('RSS Feeds', function() {
-        /* This is our first test - it tests to make sure that the
-         * allFeeds variable has been defined and that it is not
-         * empty. Experiment with this before you get started on
-         * the rest of this project. What happens when you change
-         * allFeeds in app.js to be an empty array and refresh the
-         * page?
-         */
+
         it('are defined.', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
         it('have URL values defined and URL values are not empty.', function() {
             for (var i = 0; i < allFeeds.length; i++) {
                 // .length returns 0 for an empty string
@@ -38,10 +24,6 @@ $(function() {
             }
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
         it('have name values defined and name values are not empty.', function() {
             for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].name.length).not.toBe(0);
@@ -49,23 +31,14 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "The menu" */
     describe('The menu', function() {
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+
         // the menu-hidden class controls menu visibility.
         // Test if menu-hidden is applied to the body at app start.
         it('is hidden by default.', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
-        /* TODO: Write a test that ensures the menu changes
-         * visibility when the menu icon is clicked. This test
-         * should have two expectations: does the menu display when
-         * clicked and does it hide when clicked again.
-         */
+
         it('changes visibility when the menu icon is clicked.', function() {
 
             // simulate clicking the menu icon
@@ -81,15 +54,7 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
     describe('Initial Entries', function() {
-
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
 
         beforeEach(function(done) {
             // remove all child nodes from .feed
@@ -107,12 +72,7 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
 
         var firstLink = null;
         var secondLink = null;
@@ -141,9 +101,6 @@ $(function() {
         });
     });
 
-
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////
     // And now for something Completely Udacious...
     // The following tests are intended to meet the 'Exceeds Expectations'
@@ -153,6 +110,7 @@ $(function() {
     // clicked WITHOUT checking CSS classes.  This test checks if the CSS transform function
     // is actually moving the menu laterally as intended.
     /////////////////////////////////////////////////////////////////////////////////////////////////
+
     // getTranslateX returns the Translate-X (tx) value in a transformString.
     // transformString format = (a, b, c, d, tx, ty)
     // Source for format: https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/matrix
@@ -161,8 +119,6 @@ $(function() {
         var transformSubString = transformString.substring(0, lastComma);
         var secondToLastComma = transformSubString.lastIndexOf(",");
         var tx = transformString.substring(secondToLastComma + 1, lastComma).trim();
-        // write tx to console
-        console.log(tx);
         return tx;
     };
     describe('The menu (again)', function() {
@@ -182,6 +138,9 @@ $(function() {
                 tx_second = getTranslateX($('.slide-menu').css('transform'));
             }, 250);
 
+            // click the icon-list one more time to make sure it is not visible for the next test
+            $('.icon-list').trigger('click');
+
             // Body font is 16px.
             // CSS transform is by 12em in the X direction --> transform: translate3d(-12em, 0, 0)
             // 12em at 16px = 192 px (Source: http://www.w3schools.com/tags/ref_pxtoemconversion.asp)
@@ -189,4 +148,56 @@ $(function() {
             expect(Math.abs(tx_first - tx_second)).toEqual(192);
         });
     });
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // Bonus Test #2: Testing a "time posted" future.  Most feeds and websites list information
+    // about when a post is posted.  This test checks for the presence of a time posted in each
+    // .entry.  The timestamp will be present in the .entry element after the article title, and
+    // .entry will then have this format:
+    //
+    //        <article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>
+    //
+    // The format of Time Posted will vary depending on how old the post is:
+    // If post is less than an hour old: <h5>Posted XX minutes ago</h5>
+    // If post is older than an hour but less than a day old: <h5>Posted XX hours ago</h5>
+    // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
+    // If post is at least two days old: <h5>Posted Month d, yyyy</h5> (e.g., "Posted January 1, 2016")
+    //
+    // Note: This test is expected to fail right now as this functionality is not yet implemented
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    describe('The Entries', function() {
+
+        beforeEach(function(done) {
+            // remove all child nodes from .feed
+            $('.feed').empty();
+
+            // load a feed,
+            // then execute callback function
+            loadFeed(1, function() {
+                done();
+            });
+        });
+
+        it('have a Time Posted message.', function() {
+
+            // if there are entries present
+            if ($('.feed .entry').length > 0) {
+                var entry = null;
+
+                // for each entry in the feed
+                for (var i = 0; i < $('.feed .entry').length; i++) {
+                    entry = $('.feed .entry').eq(i).text().trim();
+                    // DEBUG: This line spoofs a Time Posted
+                    entry += "Posted: July 4, 1776"
+                    console.log(entry);
+
+                    // TODO: look for "Posted:" starting at end of string
+                    // check the format of posted note
+                }
+            }
+
+            expect(true).toEqual(true);
+        });
+    });
+
 }());
