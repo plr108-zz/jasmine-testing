@@ -123,31 +123,43 @@ $(function() {
         var tx = transformMatrix.substring(secondToLastComma + 1, lastComma).trim();
         return tx;
     };
+
     describe('The menu (again)', function() {
-        it('changes visibility when the menu icon is clicked (and I can tell without checking the CSS classes applied to body).', function() {
-            var tx_first = null;
-            var tx_second = null;
 
-            // get transform before clicking the icon-list
-            tx_first = getTranslateX($('.slide-menu').css('transform'));
+        var tx_before = null;
+        var tx_after = null;
 
-            // simulate clicking the icon-list
+        beforeEach(function(done) {
+            // Get translateX before clicking the icon-list
+            tx_before = getTranslateX($('.slide-menu').css('transform'));
+
+            // Simulate clicking the icon-list
             $('.icon-list').trigger('click');
 
             setTimeout(function() {
-                // wait 250ms to get transform value.
+                // Wait 250ms
                 // Waiting gives this CSS transition time to complete --> transition: transform 0.2s;
-                tx_second = getTranslateX($('.slide-menu').css('transform'));
+                done();
             }, 250);
+        });
 
-            // click the icon-list one more time to make sure it is not visible for the next test
-            $('.icon-list').trigger('click');
+        it('moves laterally when the menu icon is clicked.', function() {
+            // Get translateX after clicking the icon-list
+            tx_after = getTranslateX($('.slide-menu').css('transform'));
 
             // Body font is 16px.
             // CSS transform is by 12em in the X direction --> transform: translate3d(-12em, 0, 0)
             // 12em at 16px = 192 px (Source: http://www.w3schools.com/tags/ref_pxtoemconversion.asp)
-            // The expected difference between tx_first and tx_second is 192px
-            expect(Math.abs(tx_first - tx_second)).toEqual(192);
+            // The expected difference between tx_before and tx_after is 192px
+            expect(Math.abs(tx_before - tx_after)).toEqual(192);
+        });
+
+        it('moves laterally when the menu icon is clicked again.', function() {
+            // Get translateX after clicking the icon-list
+            tx_after = getTranslateX($('.slide-menu').css('transform'));
+
+            // The expected difference between tx_before and tx_after is 192px
+            expect(Math.abs(tx_before - tx_after)).toEqual(192);
         });
     });
 
