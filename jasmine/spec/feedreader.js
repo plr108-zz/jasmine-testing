@@ -172,18 +172,19 @@ $(function() {
     //        <article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>
     //
     // The format of Time Posted will vary depending on how old the post is:
-    // If post is less than a minute old: <h5>Posted XX seconds ago</h5>
-    // If post is less than an hour old: <h5>Posted XX minutes ago</h5>
-    // If post is older than an hour but less than 2 hours old: <h5>Posted an hour ago</h5>
-    // If post is older than 2 hours but less than a day old: <h5>Posted XX hours ago</h5>
-    // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
-    // If post is at least two days old but less than 99 days old: <h5>Posted XX days ago</h5>
-    // If post is at least 99 days old: <h5>Posted a long time ago</h5>
-    // Note: This test is expected to fail right now as this functionality is not yet implemented
+    //     If post is less than a minute old: <h5>Posted XX seconds ago</h5>
+    //     If post is at least a minute old but less than 1 hour old: <h5>Posted XX minutes ago</h5>
+    //     If post is at least an hour old but less than 2 hours old: <h5>Posted an hour ago</h5>
+    //     If post is at least 2 hours old but less than a day old: <h5>Posted XX hours ago</h5>
+    //     If post is at least a day old but less than 2 days old: <h5>Posted yesterday</h5>
+    //     If post is at least two days old but less than 99 days old: <h5>Posted XX days ago</h5>
+    //    If post is at least 99 days old: <h5>Posted a long time ago</h5>
+    // In the formats above "XX" represents a one or two digit number
+    // Note: This test suite is expected to fail right now as this functionality is not yet implemented.
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     describe('The Entries', function() {
 
-        // ValidateTimePostedMessage returns true if message string matches any of these formats:
+        // ValidateTimePostedMessage returns true if and only if message string matches any of the valid message formats:
         // Posted XX seconds ago
         // Posted XX minutes ago
         // Posted an hour ago
@@ -191,7 +192,7 @@ $(function() {
         // Posted yesterday
         // Posted XX days ago
         // Posted a long time ago
-        // Note: XX represents any 1 or 2 digit number
+        // In the formats above "XX" represents a one or two digit number
         var ValidateTimePostedMessage = function(message) {
 
             // Check for the valid non-numeric messages first
@@ -207,10 +208,9 @@ $(function() {
             if (isNaN(message.substring(7, 9))) {
                 return false;
             } else {
-                // Check if the part of the message after the numeric value is valid
+                // Check if the rest of the message after the numeric value is valid
                 var restOfMessage = message.substring(9).trim();
                 if (restOfMessage === 'seconds ago' || restOfMessage === 'minutes ago' || restOfMessage === 'hours ago' || restOfMessage === 'days ago') {
-                    console.log("VALID MESSAGE: " + message);
                     return true;
                 } else {
                     return false;
