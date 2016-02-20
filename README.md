@@ -26,7 +26,7 @@ After installing the app, start the app by opening index.html (e.g., http://your
 ##The Feed Reader
 The pre-existing application presents feeds of articles from various websites using the [Google Feed Reader API](https://developers.google.com/feed/).  Please see [Udacity's project repository](https://github.com/udacity/frontend-nanodegree-feedreader) for more information on the feed reader app.
 
-###Testing the Feed Reader
+##Testing the Feed Reader
 Using Jasmine test suites, this project tests that the feed reader is meeting application requirements.  Jasmine test information is displayed at the bottom of the web page.
 
 ###The following tests were implemented as required by the project instructions:
