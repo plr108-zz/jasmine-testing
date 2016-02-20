@@ -1,9 +1,9 @@
 #Udacity Front-End Web Developer Nanodegree
 ##Project 6: Feed Reader Testing by Patrick Roche
 
-####[github.com/plr108](https://github.com/plr108)
+[github.com/plr108](https://github.com/plr108)
 
-####[patrick.l.roche@gmail.com](mailto:patrick.l.roche@gmail.com)
+[patrick.l.roche@gmail.com](mailto:patrick.l.roche@gmail.com)
 
 This repository contains my submission for Project 6 of the [Udacity Front-End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
