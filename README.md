@@ -1,9 +1,9 @@
 #Udacity Front-End Web Developer Nanodegree
 ##Project 6: Feed Reader Testing by Patrick Roche
 
-[github.com/plr108](https://github.com/plr108)
+####[github.com/plr108](https://github.com/plr108)
 
-[patrick.l.roche@gmail.com](mailto:patrick.l.roche@gmail.com)
+####[patrick.l.roche@gmail.com](mailto:patrick.l.roche@gmail.com)
 
 This repository contains my submission for Project 6 of the [Udacity Front-End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
@@ -53,7 +53,7 @@ the slide menu laterally as intended.  See comments in [feedreader.js](https://g
 ####Bonus Test #2: Tests for a yet-to-be implemented "time posted" feature.
 Most feeds list information about when a feed entry is posted.  This test checks for the presence of a time posted message in each entry field.  the test expects the entry to have this format:
 
-'''<article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>'''
+    <article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>
 
 Here is an example of what the Time Posted messages would look like:
 
