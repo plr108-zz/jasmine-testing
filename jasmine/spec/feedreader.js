@@ -177,17 +177,45 @@ $(function() {
     // If post is older than an hour but less than 2 hours old: <h5>Posted an hour ago</h5>
     // If post is older than 2 hours but less than a day old: <h5>Posted XX hours ago</h5>
     // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
-    // If post is at least two days old: <h5>Posted xx days ago</h5>
-    //
+    // If post is at least two days old but less than 99 days old: <h5>Posted XX days ago</h5>
+    // If post is at least 99 days old: <h5>Posted a long time ago</h5>
     // Note: This test is expected to fail right now as this functionality is not yet implemented
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     describe('The Entries', function() {
 
+        // ValidateTimePostedMessage returns true if message string matches any of these formats:
+        // Posted XX seconds ago
+        // Posted XX minutes ago
+        // Posted an hour ago
+        // Posted XX hours ago
+        // Posted yesterday
+        // Posted XX days ago
+        // Posted a long time ago
+        // Note: XX represents any 1 or 2 digit number
         var ValidateTimePostedMessage = function(message) {
 
-            console.log(message);
+            // Check for the valid non-numeric messages first
+            if (message === "Posted yesterday" || message === "Posted an hour ago" || message === "Posted a long time ago") {
+                return true;
+            }
 
-            return true;
+            // The start of the string should be "Posted "
+            // Check if the first two characters after "Posted " are a valid number.
+            // Note that both "XX" and " X" (where X represents a digit) are valid.
+
+            // if the substring is an illegal number
+            if (isNaN(message.substring(7, 9))) {
+                return false;
+            } else {
+                // Check if the part of the message after the numeric value is valid
+                var restOfMessage = message.substring(9).trim();
+                if (restOfMessage === 'seconds ago' || restOfMessage === 'minutes ago' || restOfMessage === 'hours ago' || restOfMessage === 'days ago') {
+                    console.log("VALID MESSAGE: " + message);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         };
 
         beforeEach(function(done) {
@@ -198,7 +226,7 @@ $(function() {
             loadFeed(0, done);
         });
 
-        it('have a Time Posted message.', function() {
+        it('have valid Time Posted messages.', function() {
 
             // if there are entries present
             if ($('.feed .entry').length > 0) {
@@ -208,15 +236,39 @@ $(function() {
                 for (var i = 0; i < $('.feed .entry').length; i++) {
                     entry = $('.feed .entry').eq(i).text().trim();
                     //////////////////////////////////////
-                    // DEBUG: This spoofs a Time Posted
-                    // If post is less than a minute old: <h5>Posted XX seconds ago</h5>
-                    // If post is less than an hour old: <h5>Posted XX minutes ago</h5>
-                    // If post is older than an hour but less than 2 hours old: <h5>Posted an hour ago</h5>
-                    // If post is older than 2 hours but less than a day old: <h5>Posted XX hours ago</h5>
-                    // If post is older than a day but less than 2 days old: <h5>Posted yesterday</h5>
-                    // If post is at least two days old: <h5>Posted xx days ago</h5>
-                    entry += "Posted 27 seconds ago"
-                        //////////////////////////////////////
+                    // DEBUG: This spoofs a Time Posted.
+                    // Valid formats for entry:
+                    // Posted XX seconds ago
+                    // Posted XX minutes ago
+                    // Posted an hour ago
+                    // Posted XX hours ago
+                    // Posted yesterday
+                    // Posted XX days ago
+                    // Posted a long time ago
+                    switch (i % 7) {
+                        case 0:
+                            entry += "Posted 14 seconds ago";
+                            break;
+                        case 1:
+                            entry += "Posted 2 minutes ago";
+                            break;
+                        case 2:
+                            entry += "Posted a long time ago";
+                            break;
+                        case 3:
+                            entry += "Posted 10 hours ago";
+                            break;
+                        case 4:
+                            entry += "Posted 18 days ago";
+                            break;
+                        case 5:
+                            entry += "Posted yesterday";
+                            break;
+                        case 6:
+                            entry += "Posted an hour ago";
+                            break;
+                    }
+                    // END DEBUG //////////////////////////////
 
                     // look for "Posted" starting at end of string
                     var TimePostedMessage = entry.substring(entry.lastIndexOf("Posted"), entry.length);
@@ -227,5 +279,4 @@ $(function() {
             }
         });
     });
-
 }());
