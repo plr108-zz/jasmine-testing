@@ -51,7 +51,7 @@ by verifying the 3d transform applied by the CSS class is actually moving
 the slide menu laterally as intended.  See comments in [feedreader.js](https://github.com/plr108/FrontEndNanodegreeProject6/blob/master/jasmine/spec/feedreader.js) for more details.
 
 ####Bonus Test #2: Tests for a yet-to-be implemented "time posted" feature.
-Most feeds list information about when a feed entry is posted.  This test checks for the presence of a time posted message in each entry field.  the test expects the entry to have this format:
+Most feeds list information about when a feed entry is posted.  This test checks for the presence of a time posted message in each entry field.  The test expects the entry to have this format:
 
     <article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>
 
