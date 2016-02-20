@@ -234,41 +234,7 @@ $(function() {
 
                 // for each entry in the feed
                 for (var i = 0; i < $('.feed .entry').length; i++) {
-                    entry = $('.feed .entry').eq(i).text().trim();
-                    //////////////////////////////////////
-                    // DEBUG: This spoofs a Time Posted.
-                    // Valid formats for entry:
-                    // Posted XX seconds ago
-                    // Posted XX minutes ago
-                    // Posted an hour ago
-                    // Posted XX hours ago
-                    // Posted yesterday
-                    // Posted XX days ago
-                    // Posted a long time ago
-                    switch (i % 7) {
-                        case 0:
-                            entry += "Posted 14 seconds ago";
-                            break;
-                        case 1:
-                            entry += "Posted 2 minutes ago";
-                            break;
-                        case 2:
-                            entry += "Posted a long time ago";
-                            break;
-                        case 3:
-                            entry += "Posted 10 hours ago";
-                            break;
-                        case 4:
-                            entry += "Posted 18 days ago";
-                            break;
-                        case 5:
-                            entry += "Posted yesterday";
-                            break;
-                        case 6:
-                            entry += "Posted an hour ago";
-                            break;
-                    }
-                    // END DEBUG //////////////////////////////
+                    entry = $('.feed .entry').eq(i).text().trim
 
                     // look for "Posted" starting at end of string
                     var TimePostedMessage = entry.substring(entry.lastIndexOf("Posted"), entry.length);
