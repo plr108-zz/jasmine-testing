@@ -1,6 +1,8 @@
 #Udacity Front-End Web Developer Nanodegree
 ##Project 6: Feed Reader Testing by Patrick Roche
+
 [github.com/plr108](https://github.com/plr108)
+
 [patrick.l.roche@gmail.com](mailto:patrick.l.roche@gmail.com)
 
 This repository contains my submission for Project 6 of the [Udacity Front-End Web Developer Nanodegree](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001).
@@ -44,17 +46,17 @@ Verifies that the feed entries change when a new feed is loaded.
 ### The following bonus tests are above and beyond the required project tests:
 
 ####Bonus Test #1: The menu (again)
-The required menu test checks if visibility of the slide menu changed by checking if a certain CSS class is applied.  This step goes a step further
+The required menu test suite checks if visibility of the slide menu changed by checking if a certain CSS class is applied.  This test suite goes a step further
 by verifying the 3d transform applied by the CSS class is actually moving
 the slide menu laterally as intended.  See comments in [feedreader.js](https://github.com/plr108/FrontEndNanodegreeProject6/blob/master/jasmine/spec/feedreader.js) for more details.
 
 ####Bonus Test #2: Tests for a yet-to-be implemented "time posted" feature.
 Most feeds list information about when a feed entry is posted.  This test checks for the presence of a time posted message in each entry field.  the test expects the entry to have this format:
 
-'<article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>'
+'''<article class entry="entry"><h2>Article Title</h2><h5>Time Posted</h5></article>'''
 
 Here is an example of what the Time Posted messages would look like:
 
 ![image of what the Time Posted messages would look like](img/time-posted.png)
 
-See comments in [feedreader.js](https://github.com/plr108/FrontEndNanodegreeProject6/blob/master/jasmine/spec/feedreader.js) for more details, including specifics of the valid time posted message formats.
+See comments in [feedreader.js](https://github.com/plr108/FrontEndNanodegreeProject6/blob/master/jasmine/spec/feedreader.js) for more details, including specifics of the valid time posted message formats.  Please note that since the "time posted" feature is not yet implemented, this test suite is expected to fail.
