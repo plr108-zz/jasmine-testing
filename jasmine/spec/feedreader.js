@@ -235,7 +235,7 @@ $(function() {
 
                 // for each entry in the feed
                 for (var i = 0; i < $('.feed .entry').length; i++) {
-                    entry = $('.feed .entry').eq(i).text().trim
+                    entry = $('.feed .entry').eq(i).text().trim;
 
                     // look for "Posted" starting at end of string
                     var TimePostedMessage = entry.substring(entry.lastIndexOf("Posted"), entry.length);
